@@ -1,0 +1,227 @@
+register-routing.module.ts:
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { RegisterPage } from './register.page';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: RegisterPage
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class RegisterPageRoutingModule {}
+
+
+register.module.ts:
+
+// src/app/pages/register/register.module.ts
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
+
+import { RegisterPage } from './register.page';
+
+@NgModule({
+  declarations: [RegisterPage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    RouterModule.forChild([{ path: '', component: RegisterPage }])
+  ]
+})
+export class RegisterPageModule {} 
+
+register.page.html:
+<ion-content>
+  <div class="register-form">
+    <div class="logo-container">
+      <img src="assets/logo.png" alt="Logo de la app" class="logo" />
+    </div>
+
+    <h1 class="ion-text-center">PlanGO</h1>
+    <h6 class="ion-text-center">Regístrate para comenzar</h6>
+    <h2 class="ion-text-center">¡Crea tu cuenta!</h2>
+
+    <ion-item>
+      <ion-label position="floating">Usuario</ion-label>
+      <ion-input [(ngModel)]="usuario" required minlength="3"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input [(ngModel)]="password" type="password" required minlength="4"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" (click)="registrar()">Registrar</ion-button>
+
+    <div class="volver-link">
+      <ion-label>¿Ya tienes cuenta?</ion-label>
+      <ion-button fill="clear" size="small" (click)="irAlLogin()">Iniciar sesión</ion-button>
+    </div>
+  </div>
+</ion-content>
+ 
+
+
+register.page.scss:
+
+ion-content {
+  --background: linear-gradient(to bottom right, #f0f4f8, #d9e2ec);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  .register-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .logo {
+      width: 100px;
+      height: auto;
+      border-radius: 50%;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    h6 {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: #444;
+      margin-bottom: 2rem;
+    }
+
+    ion-item {
+      --background: transparent;
+      margin-bottom: 1rem;
+
+      ion-label {
+        color: #666;
+        font-weight: 500;
+      }
+
+      ion-input {
+        --padding-start: 8px;
+      }
+    }
+
+    ion-button {
+      --background: #28a745;
+      --background-activated: #218838;
+      --box-shadow: 0 4px 12px rgba(40, 167, 69, 0.5);
+      border-radius: 8px;
+      margin-top: 1rem;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+    }
+
+    .volver-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 1.5rem;
+
+      ion-label {
+        font-size: 0.9rem;
+        color: #555;
+      }
+
+      ion-button {
+        color: #0077cc !important;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-decoration: underline;
+        padding: 0;
+        --padding-start: 0;
+        --padding-end: 0;
+        --background: transparent;
+        --box-shadow: none;
+        --ripple-color: transparent;
+      }
+    }
+  }
+}
+
+
+
+register.page.spect.ts:
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RegisterPage } from './register.page';
+
+describe('RegisterPage', () => {
+  let component: RegisterPage;
+  let fixture: ComponentFixture<RegisterPage>;
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(RegisterPage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+
+register.page.ts:
+
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-register',
+  templateUrl: './register.page.html',
+  styleUrls: ['./register.page.scss'],
+  standalone: false
+})
+export class RegisterPage {
+  usuario: string = '';
+  password: string = '';
+
+  constructor(private router: Router) {}
+
+  registrar() {
+    if (this.usuario.trim().length >= 3 && this.password.trim().length >= 4) {
+      alert('¡Usuario registrado!');
+      this.router.navigate(['/login']);
+    } else {
+      alert('Por favor completa todos los campos correctamente.');
+    }
+  }
+
+  irAlLogin() {
+    this.router.navigate(['/login']);
+  }
+}
+
+ 

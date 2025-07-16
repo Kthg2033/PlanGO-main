@@ -1,0 +1,89 @@
+html, body, ion-app, ion-content {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #f2ecf8;
+}
+
+ion-toolbar {
+  --background: #f2ecf8;
+  --color: #000;
+  box-shadow: none;
+}
+
+ion-content {
+  --background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-wrapper {
+  width: 200%;
+  max-width: 400px;
+  padding: 0.3rem;
+}
+
+.login-form {
+  background: white;
+  padding: 3rem 2rem; /* menos padding vertical, más horizontal si quieres */
+  border-radius: 0rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.logo-container {
+  margin-bottom: 2rem;
+}
+
+.logo {
+  width: 200px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+h1, h2, h6 {
+  margin: 0.5rem 0;
+}
+
+ion-item {
+  margin-bottom: 4rem;
+  border-radius: 6px;
+}
+
+ion-button {
+  margin-top: 1.5rem;
+  --background: #6a61cc;
+  --background-activated: #5a52b2;
+  --box-shadow: 0 4px 12px rgba(0, 119, 204, 0.4);
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.registro-link {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.registro-link ion-button {
+  color: #6a61cc;
+  text-decoration: underline;
+  --background: transparent;
+  padding: 0;
+}
+
+
+.foto-perfil {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%; /* para círculo */
+  object-fit: cover;
+  display: block;
+  margin: 0 auto; /* centrar */
+}

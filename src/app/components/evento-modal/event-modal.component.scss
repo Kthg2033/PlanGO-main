@@ -1,0 +1,34 @@
+
+
+
+
+ion-content {
+  ion-item {
+    margin-bottom: 8px;
+  }
+
+  ion-button {
+    margin-top: 20px;
+  }
+}
+
+ion-item ion-datetime {
+  --min-height: 40px;
+  --padding-start: 0;
+  --padding-end: 0;
+  font-size: 14px;
+  max-width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ion-datetime::part(wheel) {
+  font-size: 14px;
+}
+
+/* ✅ Botones del modal del ion-datetime */
+ion-datetime::part(action-button) {
+  background: #6a61cc;
+  color: #fff;
+  border-radius: 6px;
+}

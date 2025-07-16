@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Agenda</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list *ngIf="eventos.length > 0">
+    <ion-item *ngFor="let evento of eventos">
+      <ion-label>
+        <h2>{{ evento.title }}</h2>
+        <p>
+          📅 {{ evento.start | date: 'fullDate' }}<br>
+          ⏰ {{ evento.start | date: 'shortTime' }} - {{ evento.end | date: 'shortTime' }}<br>
+          📍 {{ evento.extendedProps?.ubicacion ? evento.extendedProps.ubicacion : 'Sin ubicación' }}<br>
+          📝 {{ evento.extendedProps?.notas ? evento.extendedProps.notas : 'Sin notas' }}
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-text color="medium" *ngIf="eventos.length === 0">
+    <p>No hay eventos en la agenda.</p>
+  </ion-text>
+</ion-content>

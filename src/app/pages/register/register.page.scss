@@ -1,0 +1,48 @@
+ion-card-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+ion-card-subtitle {
+  color: #6a61cc;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+ion-text p {
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+ion-datetime {
+  --background: rgb(245, 235, 247);
+  --wheel-highlight-background: rgb(186, 170, 255);
+  --wheel-highlight-border-radius: 48px;
+  --wheel-fade-background-rgb: 245, 235, 247;
+}
+
+ion-datetime::part(wheel-item) {
+  color: rgb(106, 105, 188);
+}
+
+ion-datetime::part(wheel-item active) {
+  color: rgb(85, 48, 165);
+}
+
+ion-datetime::part(action-button) {
+  background: #6a61cc;
+  color: #fff;
+  border-radius: 6px;
+}
+
+ion-item {
+  margin-bottom: 8px;
+}
+
+ion-button.guardar-btn {
+  --background: #6a61cc;
+  --background-activated: #5a52b2;
+  --color: #fff;
+  border-radius: 8px;
+  font-weight: bold;
+}

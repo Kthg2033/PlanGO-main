@@ -1,0 +1,167 @@
+home.routing.module.ts :
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomePage } from './home.page';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: HomePage
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export class HomePageRoutingModule {}
+
+home.module.ts:
+
+// src/app/pages/home/home.module.ts
+
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
+
+import { HomePageRoutingModule } from './home-routing.module';
+import { HomePage } from './home.page'; // 👈 Importante que exista este archivo
+
+@NgModule({
+  imports: [
+    CommonModule,
+    IonicModule,
+    HomePageRoutingModule,
+  ],
+  declarations: [HomePage], // 👈 Que esté declarado
+})
+export class HomePageModule {}
+
+  
+
+home.page.html:
+
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Inicio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Perfil de usuario -->
+  <div class="perfil-usuario">
+    <ion-avatar>
+      <img [src]="fotoUsuario" alt="Avatar usuario">
+    </ion-avatar>
+    <div>
+      <h2>{{ nombreUsuario }}</h2>
+      <p>¡Bienvenido de vuelta!</p>
+    </div>
+  </div>
+
+  <!-- Tarjetas resumen -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Perfil</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{ tareasCompletadas }} tareas completadas hoy
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Hábitos Cumplidos</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{ habitosCumplidos }} hábitos esta semana
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Eventos de hoy</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{ eventosHoy }} eventos programados
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+
+
+home.page.scss:
+.perfil-usuario {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  ion-avatar {
+    width: 64px;
+    height: 64px;
+    margin-right: 16px;
+    border: 2px solid #ccc;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+  }
+}
+
+ion-toolbar::part(toolbar-background) {
+  background-color: #0b3d91;
+  color: white;
+}
+
+ion-toolbar::part(title) {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: white;
+}
+
+ion-card::part(native) {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  border: 1px solid #ddd;
+}
+
+ion-card-title::part(native) {
+  font-size: 1.2rem;
+  color: #0b3d91;
+  font-weight: 600;
+}
+ 
+
+home.page.spect.ts:
+
+
+
+home.page.ts:
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  standalone:false,
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.scss']
+})
+export class HomePage {
+  nombreUsuario = 'Juan Pérez';
+  fotoUsuario = 'assets/img/avatar-default.png';
+
+  tareasCompletadas = 3;
+  habitosCumplidos = 5;
+  eventosHoy = 2;
+ 
+}

@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Iniciar sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="login-content">
+  <div class="login-wrapper">
+    <div class="login-form">
+      <div class="logo-container">
+        <img src="assets/icon/PlanGO.png" class="foto-perfil" alt="Logo PlanGO" />
+      </div>
+
+      <h1>PlanGO</h1>
+      <h6>Planifica tu día a día</h6>
+      <h2>¡Bienvenido!</h2>
+
+      <ion-item>
+        <ion-label position="floating">Correo Electrónico</ion-label>
+        <ion-input [(ngModel)]="usuario" name="usuario" type="email" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input
+          [(ngModel)]="password"
+          name="password"
+          [type]="mostrarContrasena ? 'text' : 'password'"
+          required>
+        </ion-input>
+        <ion-icon
+          slot="end"
+          [name]="mostrarContrasena ? 'eye' : 'eye-off'"
+          style="color: #000; font-size: 1.5rem;"
+          (click)="togglePasswordVisibility()">
+        </ion-icon>
+      </ion-item>
+
+      <ion-button expand="block" (click)="login()">Ingresar</ion-button>
+
+      <div class="registro-link">
+        <ion-button fill="clear" size="small" (click)="recuperarPassword()">
+          ¿Olvidaste tu contraseña?
+        </ion-button>
+        <ion-label>¿No tienes cuenta?</ion-label>
+        <ion-button fill="clear" size="small" [routerLink]="['/register']" routerDirection="root">
+          Registrarse
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

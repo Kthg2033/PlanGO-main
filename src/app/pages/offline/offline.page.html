@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Modo Offline</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2>No tienes conexión a internet</h2>
+  <p>Estas son tus tareas guardadas localmente:</p>
+
+  <ion-list>
+    <ion-item *ngFor="let tarea of tareasOffline">
+      <ion-label>
+        <h2 [style.text-decoration]="tarea.completada ? 'line-through' : 'none'">
+          {{ tarea.nombre }}
+        </h2>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="full" (click)="volverOnline()">Reintentar conexión</ion-button>
+</ion-content>

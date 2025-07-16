@@ -1,0 +1,87 @@
+habitos.page.ts: import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-habitos',
+  templateUrl: './habitos.page.html',
+  styleUrls: ['./habitos.page.scss']
+})
+export class HabitosPage {
+  nuevoHabito: string = '';
+  habitos: { nombre: string; completado: boolean; fecha: string }[] = [];
+
+  agregarHabito() {
+    if (this.nuevoHabito.trim()) {
+      this.habitos.push({
+        nombre: this.nuevoHabito.trim(),
+        completado: false,
+        fecha: new Date().toISOString().split('T')[0]
+      });
+      this.nuevoHabito = '';
+      this.guardarLocal();
+    }
+  }
+
+  eliminarHabito(index: number) {
+    this.habitos.splice(index, 1);
+    this.guardarLocal();
+  }
+
+  toggleCompletado(index: number) {
+    this.habitos[index].completado = !this.habitos[index].completado;
+    this.guardarLocal();
+  }
+
+  guardarLocal() {
+    localStorage.setItem('habitos', JSON.stringify(this.habitos));
+  }
+
+  ngOnInit() {
+    const data = localStorage.getItem('habitos');
+    if (data) {
+      this.habitos = JSON.parse(data);
+    }
+  }
+}
+habitos.page.html: <ion-header>
+  <ion-toolbar>
+    <ion-title>Hábitos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-input [(ngModel)]="nuevoHabito" placeholder="Nuevo hábito"></ion-input>
+    <ion-button (click)="agregarHabito()">Agregar</ion-button>
+  </ion-item>
+
+  <ion-list>
+    <ion-item *ngFor="let habito of habitos; let i = index">
+      <ion-checkbox slot="start" [(ngModel)]="habito.completado" (ionChange)="toggleCompletado(i)"></ion-checkbox>
+      <ion-label>
+        <h2 [style.textDecoration]="habito.completado ? 'line-through' : 'none'">
+          {{ habito.nombre }}
+        </h2>
+        <p>Fecha: {{ habito.fecha }}</p>
+      </ion-label>
+      <ion-button color="danger" fill="clear" slot="end" (click)="eliminarHabito(i)">🗑️</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
+habitos.module.ts:import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+
+import { RouterModule } from '@angular/router';
+import { HabitosPage } from './habitos.page';
+
+@NgModule({
+  declarations: [HabitosPage],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    RouterModule.forChild([{ path: '', component: HabitosPage }])
+  ]
+})
+export class HabitosPageModule {}

@@ -1,0 +1,56 @@
+<ion-menu *ngIf="showMenu" contentId="main-content" type="overlay">
+  <ion-header>
+    <ion-toolbar class="toolbar-menu">
+      <ion-title>Menú</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list class="ion-no-padding">
+      <ion-item lines="none">
+        <ion-avatar slot="start" class="avatar-con-fondo">
+          <img *ngIf="fotoPerfil" [src]="fotoPerfil" alt="Foto de perfil">
+          <ion-icon *ngIf="!fotoPerfil" name="person-outline"></ion-icon>
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ nombreUsuario || 'Usuario' }}</h2>
+          <p>Bienvenido</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+        <ion-item
+          [routerLink]="p.url"
+          routerDirection="root"
+          routerLinkActive="selected"
+          detail="false"
+          lines="full">
+          <ion-icon slot="start" [name]="p.icon"></ion-icon>
+          <ion-label>{{ p.title }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+
+    <div class="ion-padding">
+      <p *ngIf="direccion" class="ubicacion-menu">
+        📍 {{ direccion }}
+      </p>
+      <ion-button
+        *ngIf="direccion"
+        size="small"
+        fill="clear"
+        (click)="obtenerUbicacion()"
+        class="boton-actualizar-ubicacion">
+        🔄 Actualizar ubicación
+      </ion-button>
+    </div>
+
+    <ion-button expand="full" color="danger" class="ion-margin" (click)="logout()">
+      Cerrar sesión
+    </ion-button>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+  <ion-router-outlet></ion-router-outlet>
+</div>

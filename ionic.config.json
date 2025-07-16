@@ -1,0 +1,7 @@
+{
+  "name": "PlanGO",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

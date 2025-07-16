@@ -1,0 +1,43 @@
+/* Ionic CSS Core and Optional Utilities */
+@import "@ionic/angular/css/core.css";
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+@import "@ionic/angular/css/palettes/dark.system.css";
+
+ 
+ion-header ion-toolbar {
+  --background: #6980d3 !important;
+  --color: #ffffff !important;
+}
+
+/* 🎨 Estilo global para el botón que abre el datetime */
+ion-datetime-button {
+  --background: rgb(245, 235, 247);
+  --color: rgb(106, 105, 188);
+  --border-color: rgb(218, 216, 255);
+  --border-radius: 8px;
+}
+
+/* 🎨 Estilo global para el ion-datetime del modal */
+ion-datetime {
+  --background: rgb(245, 235, 247);
+  --background-rgb: 245, 235, 247;
+  --wheel-highlight-background: rgb(218, 216, 255);
+  --wheel-highlight-border-radius: 48px;
+  --wheel-fade-background-rgb: 245, 235, 247;
+}
+
+ion-datetime::part(wheel-item) {
+  color: rgb(106, 105, 188); /* texto normal */
+}
+
+ion-datetime::part(wheel-item active) {
+  color: rgb(103, 85, 186); /* texto seleccionado */
+}

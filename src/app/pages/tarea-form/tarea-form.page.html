@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar style="--background: #6980d3;">
+    <ion-buttons slot="start">
+      <ion-back-button text="" icon="chevron-back-outline" class="custom-back-button"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center" color="light">
+      {{ editMode ? 'Editar Tarea' : 'Nueva Tarea' }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="tareaForm" (ngSubmit)="guardar()">
+
+    <ion-item>
+      <ion-label position="floating">Nombre 📝</ion-label>
+      <ion-input type="text" formControlName="nombre"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Descripción 💡</ion-label>
+      <ion-textarea formControlName="descripcion"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Prioridad 🔥</ion-label>
+      <ion-select formControlName="prioridad" placeholder="Selecciona prioridad">
+        <ion-select-option *ngFor="let p of prioridades" [value]="p">{{ p }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Categoría 📂</ion-label>
+      <ion-select formControlName="categoria" placeholder="Selecciona categoría">
+        <ion-select-option *ngFor="let c of categorias" [value]="c">{{ c }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Fecha sugerida 📅</ion-label>
+      <ion-datetime formControlName="fechaSugerida" presentation="date"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Notas personales 🗒️</ion-label>
+      <ion-textarea formControlName="notas"></ion-textarea>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label>Completada ✅</ion-label>
+      <ion-toggle formControlName="completada"></ion-toggle>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="!tareaForm.valid">
+      {{ editMode ? 'Actualizar' : 'Guardar' }}
+    </ion-button>
+
+  </form>
+</ion-content>

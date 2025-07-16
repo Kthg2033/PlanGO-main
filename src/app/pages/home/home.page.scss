@@ -1,0 +1,63 @@
+:host {
+  display: block;
+  background: #f8f9fa;
+}
+
+ion-content {
+  --padding-start: 12px;
+  --padding-end: 12px;
+}
+
+/* Espacio entre cards más pequeño */
+ion-card.info-card {
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+ion-card-title {
+  font-size: 1rem;
+}
+
+ion-card-content h3, 
+ion-card-content p, 
+ion-card-content blockquote {
+  margin: 0.3em 0;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+/* Calendario sin margen abajo excesivo */
+.full-calendar {
+  font-family: 'Segoe UI', sans-serif;
+  --fc-border-color: #e0e0e0;
+  --fc-today-bg-color: #d7efff;
+  margin-bottom: 3px;
+}
+
+.fc-toolbar-title {
+  font-size: 1.2rem;
+}
+
+.fc-button {
+  font-size: 0.8rem;
+  padding: 0.4rem 0.6rem;
+}
+
+.fc-event {
+  font-size: 0.85rem;
+  border-radius: 6px;
+}
+
+ion-toolbar {
+  --background: #6980d3;
+  --color: #ffffff;
+}
+
+ion-menu-button {
+  --color: #ffffff;
+}
+
+
+

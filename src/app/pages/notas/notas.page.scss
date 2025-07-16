@@ -1,0 +1,66 @@
+/* tarjeta de nueva nota */
+.card-nueva {
+  ion-card-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  ion-button {
+    margin-top: 1rem;
+    --background: #6a61cc;
+    --background-activated: #5a52b2;
+    --color: #fff;
+  }
+}
+
+/* paleta de colores */
+.palette {
+  display: flex;
+  gap: .5rem;
+  margin: .75rem 0 1.25rem;
+
+  .dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    outline: none;
+  }
+
+  .dot.sel {
+    border-color: var(--ion-color-primary);
+  }
+}
+
+/* color dinámico en cada nota */
+ion-item[style] {
+  --background: var(--nota-color);
+  border-radius: 6px;
+  margin-bottom: .5rem;
+}
+
+ion-item.sel {
+  border: 2px dashed #222;
+}
+
+/* selectores de fecha */
+.fecha-selectores {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 1rem 0;
+
+  ion-select {
+    flex: 1;
+  }
+}
+
+/* barra superior */
+ion-toolbar {
+  --background: #6980d3; /* color barra principal */
+  --color: #ffffff;      /* texto blanco */
+}
+
+ion-back-button {
+  --color: #ffffff;
+}

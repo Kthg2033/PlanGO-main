@@ -1,0 +1,232 @@
+agenda.page.ts:
+
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-agenda',
+  templateUrl: './agenda.page.html',
+  styleUrls: ['./agenda.page.scss'],
+  standalone: false
+})
+export class AgendaPage {
+  fechaSeleccionada: string = '';
+
+  eventosOriginales = [
+    { fecha: '2025-06-17', hora: '09:00', descripcion: 'Reunión', completado: false },
+    { fecha: '2025-06-18', hora: '14:00', descripcion: 'Clase', completado: false }
+  ];
+
+  eventos: any[] = [];
+
+  constructor(private route: ActivatedRoute) {
+    this.route.queryParams.subscribe(params => {
+      this.fechaSeleccionada = params['fecha'] || '';
+      this.filtrarEventosPorFecha();
+    });
+  }
+
+  filtrarEventosPorFecha() {
+    if (this.fechaSeleccionada) {
+      this.eventos = this.eventosOriginales.filter(e => e.fecha === this.fechaSeleccionada);
+    } else {
+      this.eventos = this.eventosOriginales;
+    }
+  }
+}
+
+
+
+agenda.page.html
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Agenda Diaria</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2 *ngIf="fechaSeleccionada">Eventos para {{ fechaSeleccionada }}</h2>
+
+  <ion-list *ngIf="eventos.length > 0; else sinEventos">
+    <ion-item *ngFor="let evento of eventos">
+      <ion-label>
+        <h2>{{ evento.hora }} - {{ evento.descripcion }}</h2>
+      </ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="evento.completado"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+
+  <ng-template #sinEventos>
+    <ion-text color="medium">
+      <p>No hay eventos para esta fecha.</p>
+    </ion-text>
+  </ng-template>
+</ion-content>
+
+
+eventos.service.ts 
+// servicios/eventos.service.ts
+import { Injectable } from '@angular/core';
+
+@Injectable({ providedIn: 'root' })
+export class EventosService {
+  private eventos: any[] = [];
+  private notas: any[] = [];
+
+  agregarEvento(evento: any) {
+    this.eventos.push(evento);
+  }
+
+  obtenerEventos(): any[] {
+    return this.eventos;
+  }
+
+  agregarNota(nota: any) {
+    this.notas.push(nota);
+  }
+
+  obtenerNotas(): any[] {
+    return this.notas;
+  }
+
+  obtenerNotasPorFecha(fecha: string): any[] {
+    return this.notas.filter(n => n.fecha === fecha);
+  }
+} 
+
+// home.page.ts (actualizado para usar EventosService)
+import { Component } from '@angular/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { ModalController } from '@ionic/angular';
+import { EventoModalComponent } from 'src/app/components/evento-modal/evento-modal.component';
+import { EventosService } from 'src/app/services/eventos.service';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.scss']
+})
+export class HomePage {
+  calendarPlugins = [dayGridPlugin, timeGridPlugin, interactionPlugin];
+  calendarOptions: any = {
+    initialView: 'dayGridMonth',
+    weekends: true,
+    events: [],
+    dateClick: (arg: any) => this.abrirModal(arg.dateStr)
+  };
+
+  constructor(private modalCtrl: ModalController, private eventosService: EventosService) {}
+
+  async abrirModal(fecha: string) {
+    const modal = await this.modalCtrl.create({
+      component: EventoModalComponent,
+      componentProps: { fechaSeleccionada: fecha }
+    });
+
+    modal.onDidDismiss().then(res => {
+      if (res.data) {
+        const nuevoEvento = { title: res.data.titulo, date: fecha };
+        this.calendarOptions.events = [...this.calendarOptions.events, nuevoEvento];
+        this.eventosService.agregarEvento(nuevoEvento);
+
+        if (res.data.notas) {
+          this.eventosService.agregarNota({ fecha, titulo: res.data.titulo, cuerpo: res.data.notas });
+        }
+      }
+    });
+
+    await modal.present();
+  }
+}
+
+// notas.page.ts (modificado para usar EventosService)
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { EventosService } from 'src/app/services/eventos.service';
+
+@Component({
+  selector: 'app-notas',
+  templateUrl: './notas.page.html',
+  styleUrls: ['./notas.page.scss']
+})
+export class NotasPage {
+  fechaSeleccionada: string = '';
+  notas: any[] = [];
+
+  constructor(private route: ActivatedRoute, private eventosService: EventosService) {
+    this.route.queryParams.subscribe(params => {
+      this.fechaSeleccionada = params['fecha'] || '';
+      this.filtrarNotasPorFecha();
+    });
+  }
+
+  // ✅ NUEVO MÉTODO para filtrar eventos por fecha
+  filtrarEventosPorFecha(fecha: string): any[] {
+    return this.eventos.filter(e => e.date === fecha);
+  }
+
+  filtrarNotasPorFecha() {
+    if (this.fechaSeleccionada) {
+      this.notas = this.eventosService.obtenerNotasPorFecha(this.fechaSeleccionada);
+    } else {
+      this.notas = this.eventosService.obtenerNotas();
+
+      
+    }
+    
+  }
+}
+ 
+home.page.ts:
+
+
+import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { CalendarOptions } from '@fullcalendar/core';
+import interactionPlugin from '@fullcalendar/interaction';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { EventoModalComponent } from 'src/app/components/evento-modal/evento-modal.component';
+
+@Component({
+  selector: 'app-home',
+  standalone:false,
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.scss'],
+})
+export class HomePage {
+  calendarOptions: CalendarOptions = {
+    plugins: [dayGridPlugin, interactionPlugin],
+    initialView: 'dayGridMonth',
+    dateClick: (arg) => {
+      this.abrirModal(arg.dateStr);
+    },
+    events: []
+  };
+
+  constructor(private modalCtrl: ModalController) {}
+
+  async abrirModal(fecha: string) {
+    const modal = await this.modalCtrl.create({
+      component: EventoModalComponent,
+      componentProps: { fechaSeleccionada: fecha },
+    });
+
+    modal.onDidDismiss().then(res => {
+      if (res.data) {
+        const eventos = Array.isArray(this.calendarOptions.events) ? this.calendarOptions.events : [];
+        this.calendarOptions.events = [
+          ...eventos,
+          {
+            title: res.data.titulo,
+            start: res.data.fechaInicio,
+            end: res.data.fechaFin,
+          }
+        ];
+      }
+    });
+
+    await modal.present();
+  }
+}

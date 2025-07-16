@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="perfil-avatar">
+    <div class="avatar-con-fondo">
+      <img *ngIf="usuario.foto" [src]="usuario.foto" alt="Foto de perfil">
+      <ion-icon *ngIf="!usuario.foto" name="person-outline"></ion-icon>
+    </div>
+
+    <ion-button expand="block" size="small" (click)="seleccionarFoto()">
+      Cambiar foto
+    </ion-button>
+    <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden #fileInput>
+  </div>
+
+  <h2>Editar mis datos</h2>
+
+  <ion-item>
+    <ion-label position="floating">Nombres</ion-label>
+    <ion-input [(ngModel)]="usuario.nombres"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Apellido Paterno</ion-label>
+    <ion-input [(ngModel)]="usuario.apellidoPaterno"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Apellido Materno</ion-label>
+    <ion-input [(ngModel)]="usuario.apellidoMaterno"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Género</ion-label>
+    <ion-input [(ngModel)]="usuario.genero"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Fecha de Nacimiento</ion-label>
+    <ion-datetime
+      [(ngModel)]="usuario.fechaNacimiento"
+      presentation="date"
+      prefer="wheel"
+      display-format="DD MMMM YYYY"
+      picker-format="DD MMMM YYYY">
+    </ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Email</ion-label>
+    <ion-input [(ngModel)]="usuario.email"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Teléfono</ion-label>
+    <ion-input [(ngModel)]="usuario.telefono"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">País</ion-label>
+    <ion-input [(ngModel)]="usuario.pais"></ion-input>
+  </ion-item>
+
+  <ion-button
+    class="boton-guardar"
+    expand="block"
+    size="large"
+    (click)="guardarCambios()">
+    Guardar cambios
+  </ion-button>
+</ion-content>

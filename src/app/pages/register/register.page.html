@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login" text="" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registrarse</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+        POR FAVOR COMPLETA TODOS LOS CAMPOS
+      </ion-card-subtitle>
+      <ion-card-title>Crear Cuenta</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <form #formulario="ngForm" (ngSubmit)="registrar(formulario)">
+        <ion-item>
+          <ion-label position="floating">Nombres</ion-label>
+          <ion-input [(ngModel)]="usuario.nombres" name="nombres" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Apellido Paterno</ion-label>
+          <ion-input [(ngModel)]="usuario.apellidoPaterno" name="apellidoPaterno" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Apellido Materno</ion-label>
+          <ion-input [(ngModel)]="usuario.apellidoMaterno" name="apellidoMaterno" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Género</ion-label>
+          <ion-select [(ngModel)]="usuario.genero" name="genero" placeholder="Selecciona uno" required>
+            <ion-select-option value="masculino">Masculino</ion-select-option>
+            <ion-select-option value="femenino">Femenino</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Fecha de Nacimiento</ion-label>
+          <ion-datetime
+            [(ngModel)]="usuario.fechaNacimiento"
+            name="fechaNacimiento"
+            presentation="date"
+            (ionChange)="guardarFecha($any($event))">
+          </ion-datetime>
+        </ion-item>
+
+        <ion-text color="medium" class="ion-margin-start" *ngIf="fechaFormateada">
+          <p>Fecha seleccionada: {{ fechaFormateada }}</p>
+        </ion-text>
+
+        <ion-item>
+          <ion-label position="floating">Correo Electrónico</ion-label>
+          <ion-input [(ngModel)]="usuario.email" name="email" type="email" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Teléfono Celular</ion-label>
+          <ion-input [(ngModel)]="usuario.telefono" name="telefono" type="tel" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>País</ion-label>
+          <ion-select [(ngModel)]="usuario.pais" name="pais" placeholder="Selecciona tu país" required>
+            <ion-select-option value="Chile">Chile</ion-select-option>
+            <ion-select-option value="Argentina">Argentina</ion-select-option>
+            <ion-select-option value="Perú">Perú</ion-select-option>
+            <ion-select-option value="México">México</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input [(ngModel)]="usuario.contrasena" name="contrasena" type="password" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Confirmar Contraseña</ion-label>
+          <ion-input [(ngModel)]="confirmarContrasena" name="confirmarContrasena" type="password" required></ion-input>
+        </ion-item>
+
+        <ion-button expand="full" type="submit" class="guardar-btn ion-margin-top" [disabled]="formulario.invalid">
+          Registrarse
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

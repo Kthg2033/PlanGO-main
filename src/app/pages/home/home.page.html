@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Calendario de Eventos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Calendario -->
+  <full-calendar
+    [options]="calendarOptions"
+    style="margin: 10px;">
+  </full-calendar>
+
+  <!-- Sección de tarjetas -->
+  <ion-grid>
+    <ion-row>
+
+      <!-- Clima -->
+      <ion-col size="12" size-md="4">
+        <ion-card class="info-card">
+          <ion-card-header>
+            <ion-card-title>
+              <ion-icon name="sunny-outline"></ion-icon>
+              Clima en {{ climaCiudad }}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p *ngIf="!climaTemp && !climaDesc">Cargando clima...</p>
+            <h3 *ngIf="climaTemp">{{ climaTemp }}°C - {{ climaDesc }}</h3>
+            <p *ngIf="!climaTemp && climaDesc === 'No disponible'">No disponible</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <!-- Finanzas -->
+      <ion-col size="12" size-md="4">
+        <ion-card class="info-card">
+          <ion-card-header>
+            <ion-card-title>
+              <ion-icon name="cash-outline"></ion-icon> Indicadores Económicos
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>UF: <strong>{{ valorUF }}</strong></p>
+            <p>Dólar: <strong>{{ valorDolar }}</strong></p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <!-- Frase motivacional -->
+      <ion-col size="12" size-md="4">
+        <ion-card class="info-card">
+          <ion-card-header>
+            <ion-card-title>
+              <ion-icon name="bulb-outline"></ion-icon> Frase del Día
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <blockquote>{{ fraseMotivacional }}</blockquote>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>

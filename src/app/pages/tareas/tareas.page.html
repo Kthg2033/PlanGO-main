@@ -1,0 +1,46 @@
+
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Tareas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="agregarTarea()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item *ngFor="let tarea of tareas">
+      <ion-label>
+        <h2>
+          {{ tarea.nombre }}
+          <ion-chip [color]="
+            tarea.prioridad === 'Alta' ? 'danger' :
+            tarea.prioridad === 'Media' ? 'warning' :
+            'success'
+          ">
+            {{ tarea.prioridad }}
+          </ion-chip>
+        </h2>
+        <p>📂 {{ tarea.categoria }}</p>
+        <p>📝 {{ tarea.descripcion }}</p>
+        <p>📅 {{ tarea.fechaSugerida | date:'shortDate' }}</p>
+        <p>🎯 Puntos: {{ tarea.puntos }} | 🔥 Racha: {{ tarea.racha }}</p>
+        <p>🗒️ {{ tarea.notas }}</p>
+      </ion-label>
+      <ion-checkbox slot="start" [(ngModel)]="tarea.completada" (ionChange)="toggleCompletada(tarea)"></ion-checkbox>
+      <ion-button fill="clear" (click)="editarTarea(tarea.id)">
+        <ion-icon slot="icon-only" name="create"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" color="danger" (click)="eliminarTarea(tarea.id)">
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

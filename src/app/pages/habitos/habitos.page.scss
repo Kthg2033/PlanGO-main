@@ -1,0 +1,39 @@
+/* Reduce el tamaño del texto en los chips */
+.template-list ion-chip ion-label {
+  font-size: 0.8rem;
+}
+
+/* Reduce el tamaño del título de cada hábito activo */
+ion-card-title {
+  font-size: 1rem;
+}
+
+/* Reduce un poco el tamaño de los botones de días */
+.dias button {
+  background: #f1f1f1;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+/* Si quieres aún más discreto para el badge */
+.badge {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  animation: pulse 1s infinite;
+}
+
+
+
+ion-toolbar {
+  --background: #6980d3; /* color barra principal*/
+  --color: #ffffff;      /* texto blanco */
+}
+
+ion-back-button {
+  --color: #ffffff;
+}
