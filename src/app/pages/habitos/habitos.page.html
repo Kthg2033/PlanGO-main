@@ -8,7 +8,20 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Plantillas para elegir hábitos -->
+
+  <!-- Estadísticas -->
+  <ion-card class="resumen-card" *ngIf="habitosFiltrados.length > 0">
+    <ion-card-header>
+      <ion-card-title>📊 Estadísticas Semanales</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Días cumplidos:</strong> {{ totalDiasCumplidos }}</p>
+      <p><strong>Promedio por hábito:</strong> {{ promedioSemanal | number:'1.1-1' }}/7</p>
+      <p><strong>🔥 Mejor racha:</strong> {{ mejorRacha }} días seguidos</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Selección de hábitos -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Elige un hábito para empezar</ion-card-title>
@@ -22,23 +35,41 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- Lista de hábitos activos -->
-  <ion-card *ngFor="let h of habitosFiltrados" [style.border-left]=" '8px solid ' + h.color ">
+  <!-- Lista de hábitos -->
+  <ion-card 
+    *ngFor="let h of habitosFiltrados; index as i"
+    [style.border-left]="'8px solid ' + h.color"
+    [class.seleccionado]="selectedIndex === i"
+    (click)="seleccionarHabito(i)">
+    
     <ion-card-header>
       <ion-card-title>{{ h.icono }} {{ h.nombre }}</ion-card-title>
     </ion-card-header>
+
     <ion-card-content>
       <div class="dias">
-        <button *ngFor="let d of h.dias; index as i"
-                [class.completado]="h.dias[i]"
-                (click)="toggleDia(h, i)">
-          {{ ['L', 'M', 'X', 'J', 'V', 'S', 'D'][i] }}
+        <button *ngFor="let d of h.dias; index as j"
+                [class.completado]="h.dias[j]"
+                (click)="toggleDia(h, j); $event.stopPropagation()">
+          {{ ['L', 'M', 'X', 'J', 'V', 'S', 'D'][j] }}
         </button>
       </div>
-      <ion-progress-bar [value]="progreso(h)/7" color="success"></ion-progress-bar>
+
+      <ion-progress-bar [value]="progreso(h)/7" class="progreso-bar"></ion-progress-bar>
+      <div class="progress-label">{{ (progreso(h)/7 * 100) | number:'1.0-0' }}%</div>
+
       <div *ngIf="h.racha >= 3" class="badge">
         🔥 ¡Racha: {{ h.racha }} días!
       </div>
+
+      <ion-button *ngIf="selectedIndex === i"
+                  expand="block"
+                  color="danger"
+                  fill="outline"
+                  (click)="confirmarEliminarHabito(i); $event.stopPropagation()">
+        Eliminar este hábito
+      </ion-button>
     </ion-card-content>
   </ion-card>
+
 </ion-content>

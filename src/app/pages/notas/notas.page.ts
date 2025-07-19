@@ -18,11 +18,13 @@ interface Nota {
 export class NotasPage {
   fechaSeleccionada = '';
   readonly palette = ['#ffadad', '#ffd6a5', '#fdffb6', '#caffbf', '#9bf6ff', '#a0c4ff', '#bdb2ff', '#ffc6ff'];
+
   notas: Nota[] = [];
+  notasOriginales: Nota[] = [];
+
   nuevaNota: Partial<Nota> = { titulo: '', cuerpo: '', color: this.palette[0] };
   selectedId: number | null = null;
 
-  // Fecha dividida
   fecha = { dia: '', mes: '', anio: '' };
   dias = Array.from({ length: 31 }, (_, i) => (i + 1).toString().padStart(2, '0'));
   meses = [
@@ -37,7 +39,7 @@ export class NotasPage {
 
   constructor(private route: ActivatedRoute) {
     const guardadas = localStorage.getItem('notas');
-    this.notas = guardadas ? JSON.parse(guardadas) : this.notasPorDefecto();
+    this.notasOriginales = guardadas ? JSON.parse(guardadas) : this.notasPorDefecto();
     this.route.queryParams.subscribe(p => {
       this.fechaSeleccionada = p['fecha'] || '';
       this.filtrarNotasPorFecha();
@@ -53,31 +55,49 @@ export class NotasPage {
   }
 
   private syncStorage() {
-    localStorage.setItem('notas', JSON.stringify(this.notas));
+    localStorage.setItem('notas', JSON.stringify(this.notasOriginales));
   }
 
   filtrarNotasPorFecha() {
-    if (!this.fechaSeleccionada) return;
-    this.notas = this.notas.filter(n => n.fecha === this.fechaSeleccionada);
+    if (!this.fechaSeleccionada) {
+      this.notas = [...this.notasOriginales];
+    } else {
+      this.notas = this.notasOriginales.filter(n => n.fecha === this.fechaSeleccionada);
+    }
+  }
+
+  private formatearFechaHoy(): string {
+    const hoy = new Date();
+    return `${hoy.getDate().toString().padStart(2, '0')}-${(hoy.getMonth() + 1).toString().padStart(2, '0')}-${hoy.getFullYear()}`;
   }
 
   guardarNota() {
-    if (!this.nuevaNota.titulo?.trim()) return;
+    // ⬇️ Aquí está la corrección crucial:
+    (document.activeElement as HTMLElement)?.blur();
+
+    console.log('🧩 Click Guardar detectado', this.nuevaNota);
+
+    if (!this.nuevaNota.titulo?.trim()) {
+      console.warn('❗ Título vacío: no guarda');
+      return;
+    }
 
     const fechaFormateada = this.fecha.dia && this.fecha.mes && this.fecha.anio
       ? `${this.fecha.dia}-${this.fecha.mes}-${this.fecha.anio}`
-      : this.fechaSeleccionada || new Date().toISOString().slice(0, 10);
+      : this.fechaSeleccionada || this.formatearFechaHoy();
 
     const nota: Nota = {
       id: Date.now(),
       fecha: fechaFormateada,
-      titulo: this.nuevaNota.titulo!.trim(),
+      titulo: this.nuevaNota.titulo.trim(),
       cuerpo: this.nuevaNota.cuerpo || '',
       color: this.nuevaNota.color || this.palette[0]
     };
 
-    this.notas.unshift(nota);
+    this.notasOriginales.unshift(nota);
     this.syncStorage();
+    this.filtrarNotasPorFecha();
+
     this.nuevaNota = { titulo: '', cuerpo: '', color: this.palette[0] };
     this.fecha = { dia: '', mes: '', anio: '' };
   }
@@ -85,8 +105,9 @@ export class NotasPage {
   eliminarNota(id?: number) {
     const targetId = id || this.selectedId;
     if (!targetId) return;
-    this.notas = this.notas.filter(n => n.id !== targetId);
+    this.notasOriginales = this.notasOriginales.filter(n => n.id !== targetId);
     this.syncStorage();
+    this.filtrarNotasPorFecha();
     this.selectedId = null;
   }
 

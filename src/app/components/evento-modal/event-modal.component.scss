@@ -28,7 +28,20 @@ ion-datetime::part(wheel) {
 
 /* ✅ Botones del modal del ion-datetime */
 ion-datetime::part(action-button) {
-  background: #6a61cc;
+  background: #1c728e;
   color: #fff;
   border-radius: 6px;
+}
+
+
+/* Aplica color negro al texto escrito en los campos */
+ion-item {
+  
+}
+
+ion-input,
+ion-textarea,
+ion-select,
+ion-datetime {
+  --color: #000;
 }

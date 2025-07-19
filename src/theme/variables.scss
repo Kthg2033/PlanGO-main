@@ -1,2 +1,73 @@
-// For information on how to create your own theme, please see:
-// http://ionicframework.com/docs/theming/
+:root {
+  /** Fondo general claro */
+  --ion-background-color: #eaf3f3;
+
+  /** Texto y elementos oscuros */
+  --ion-text-color: #245966;
+
+  /** Color principal */
+  --ion-color-primary: #95969c;
+
+  /** Color secundario (para toolbars, botones, etc.) */
+  --ion-color-secondary: #5a2f7d;
+
+  /** Tonos claros */
+  --ion-color-light: #797979;
+
+  /** Tonos medios para detalles */
+  --ion-color-medium: #6b7c87;
+
+  /** Color de éxito, advertencia, etc. si querés usarlos */
+  --ion-color-success: #757d86;
+  --ion-color-warning: #8b7bdb;
+  --ion-color-danger: #1c728e;
+}
+
+/*Color calendario*/
+
+.calendar-container {
+  background-color: white; // Fondo blanco
+  border-radius: 10px;
+  padding: 20px;
+  width: max-content;
+  font-family: sans-serif;
+  color: #333;
+
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    gap: 5px;
+
+    .day-name {
+      font-weight: bold;
+      color: #666;
+    }
+
+    .day {
+      padding: 8px 0;
+      border-radius: 50%;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #ffffff;
+        cursor: pointer;
+      }
+
+      &.selected {
+        background-color: #e7e7e7;
+        color: #000;
+        font-weight: bold;
+      }
+    }
+  }
+}

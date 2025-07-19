@@ -29,14 +29,41 @@
     </ion-select>
   </ion-item>
 
+  <!-- Selectores de Día / Mes / Año -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4">
+        <ion-select placeholder="Día" [(ngModel)]="dia">
+          <ion-select-option *ngFor="let d of [].constructor(31); let i = index" [value]="(i+1).toString()">
+            {{ i + 1 }}
+          </ion-select-option>
+        </ion-select>
+      </ion-col>
+      <ion-col size="4">
+        <ion-select placeholder="Mes" [(ngModel)]="mes">
+          <ion-select-option *ngFor="let m of [].constructor(12); let i = index" [value]="(i+1).toString()">
+            {{ i + 1 }}
+          </ion-select-option>
+        </ion-select>
+      </ion-col>
+      <ion-col size="4">
+        <ion-select placeholder="Año" [(ngModel)]="anio">
+          <ion-select-option *ngFor="let y of [2025, 2026, 2027]" [value]="y.toString()">
+            {{ y }}
+          </ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
   <ion-item>
     <ion-label>Hora Inicio</ion-label>
     <ion-datetime
       presentation="time"
       displayFormat="h:mm a"
       [(ngModel)]="horaInicio"
-      hourCycle="h12"
-    ></ion-datetime>
+      hourCycle="h12">
+    </ion-datetime>
   </ion-item>
 
   <ion-item>
@@ -45,15 +72,14 @@
       presentation="time"
       displayFormat="h:mm a"
       [(ngModel)]="horaFin"
-      hourCycle="h12"
-    ></ion-datetime>
+      hourCycle="h12">
+    </ion-datetime>
   </ion-item>
 
   <ion-button
     expand="full"
-    style="--background: #6a61cc; --background-activated: #5a52b2; --color: #fff;"
-    (click)="guardar()"
-  >
+    style="--background: #1c728e; --background-activated: #5a52b2; --color: #fff;"
+    (click)="guardar()">
     Guardar
   </ion-button>
 

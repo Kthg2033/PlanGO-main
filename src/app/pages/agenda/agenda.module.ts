@@ -12,6 +12,6 @@ import { AgendaPage } from './agenda.page';
     IonicModule,
     RouterModule.forChild([{ path: '', component: AgendaPage }])
   ],
-  declarations: [AgendaPage]  // ✅ Aquí debe ir
+  declarations: [AgendaPage]
 })
 export class AgendaPageModule {}

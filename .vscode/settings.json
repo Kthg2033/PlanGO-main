@@ -1,3 +1,7 @@
 {
-  "typescript.preferences.autoImportFileExcludePatterns": ["@ionic/angular/common", "@ionic/angular/NgModule"]
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "@ionic/angular/common",
+    "@ionic/angular/NgModule"
+  ],
+  "java.configuration.updateBuildConfiguration": "automatic"
 }

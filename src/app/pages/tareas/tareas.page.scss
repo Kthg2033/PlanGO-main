@@ -2,3 +2,12 @@ ion-chip {
   font-size: 12px;
 }
 
+ion-toolbar ion-button ion-icon {
+  color: white !important;
+}
+
+
+ion-back-button::part(icon) {
+  color: white !important; // Cambia a cualquier color (#000, #1c728e, etc.)
+  font-size: 24px;
+}

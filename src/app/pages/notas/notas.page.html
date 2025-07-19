@@ -8,7 +8,8 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card class="card-nueva">
+  <!-- Tarjeta Nueva Nota -->
+  <div class="card-nueva">
     <ion-card-header>
       <ion-card-title>Nueva nota</ion-card-title>
     </ion-card-header>
@@ -17,28 +18,24 @@
         <ion-label position="floating">Título</ion-label>
         <ion-input [(ngModel)]="nuevaNota.titulo"></ion-input>
       </ion-item>
-
+      <ion-text color="danger" *ngIf="nuevaNota.titulo === ''">
+        <p class="ion-padding-start">* El título es obligatorio</p>
+      </ion-text>
       <ion-item>
         <ion-label position="floating">Contenido</ion-label>
         <ion-textarea rows="3" [(ngModel)]="nuevaNota.cuerpo"></ion-textarea>
       </ion-item>
-
-      <!-- Fecha dividida -->
       <div class="fecha-selectores">
-        <ion-select interface="popover" placeholder="Día" [(ngModel)]="fecha.dia">
+        <ion-select placeholder="Día" [(ngModel)]="fecha.dia">
           <ion-select-option *ngFor="let d of dias" [value]="d">{{ d }}</ion-select-option>
         </ion-select>
-
-        <ion-select interface="popover" placeholder="Mes" [(ngModel)]="fecha.mes">
+        <ion-select placeholder="Mes" [(ngModel)]="fecha.mes">
           <ion-select-option *ngFor="let m of meses" [value]="m.valor">{{ m.nombre }}</ion-select-option>
         </ion-select>
-
-        <ion-select interface="popover" placeholder="Año" [(ngModel)]="fecha.anio">
+        <ion-select placeholder="Año" [(ngModel)]="fecha.anio">
           <ion-select-option *ngFor="let y of anios" [value]="y">{{ y }}</ion-select-option>
         </ion-select>
       </div>
-
-      <!-- Color -->
       <div class="palette">
         <button *ngFor="let c of palette"
                 class="dot"
@@ -46,19 +43,14 @@
                 [class.sel]="c === nuevaNota.color"
                 (click)="nuevaNota.color = c"></button>
       </div>
-
       <ion-button expand="block" (click)="guardarNota()">Guardar</ion-button>
-
-      <ion-button expand="block"
-                  color="danger"
-                  fill="outline"
-                  *ngIf="selectedId"
-                  (click)="eliminarNota()">
+      <ion-button expand="block" color="danger" fill="outline" *ngIf="selectedId" (click)="eliminarNota()">
         Eliminar nota seleccionada
       </ion-button>
     </ion-card-content>
-  </ion-card>
+  </div>
 
+  <!-- Lista de Notas -->
   <ion-list>
     <ion-item-sliding *ngFor="let nota of notas">
       <ion-item [style.--nota-color]="nota.color"

@@ -3,51 +3,6 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
-}
-
-ion-avatar {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  margin-bottom: 10px;
-}
-
-ion-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* botón global: cambiar foto, cambiar contraseña, obtener ubicación */
-ion-button {
-  --background: #2c7ae0;
-  --background-activated: #5a51eb;
-  --color: #fff;
-  border-radius: 8px;
-  font-weight: bold;
-}
-
-/* botón específico para guardar cambios en rosa */
-.boton-guardar {
-  --background: #5a52b2;
-  --background-activated: #5a52b2;
-  --color: white;
-  font-size: 1.1rem;
-}
-
-/* barra superior */
-ion-toolbar {
-  --background: #6980d3; /* color barra principal */
-  --color: #ffffff;      /* texto blanco */
-}
-
-.perfil-avatar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
 
   .avatar-con-fondo {
     width: 60px;
@@ -70,4 +25,100 @@ ion-toolbar {
       color: #999;
     }
   }
+}
+
+ion-avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  margin-bottom: 10px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+ion-button {
+  --background: #1c728e; /*color boton perfil*/
+  --background-activated: #1c728e;
+  --color: #fff;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.boton-guardar {
+  --background:#1c728e;
+  --background-activated: #1c728e;
+  --color: #fff;
+  font-size: 1.1rem;
+}
+
+ion-toolbar {
+  --background: #0f2d99;
+  --color: #ffffff;
+}
+
+/* SOLUCIÓN DEFINITIVA para el ícono del ojo SIN AZUL */
+.btn-ojo {
+  --color: transparent !important;
+  color: transparent !important;
+}
+
+.icon-ojo {
+  font-size: 1.2rem;
+  color: #000 !important;
+  background: #fff !important;
+  border-radius: 50%;
+  padding: 6px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+ion-datetime {
+  --background: white; // Fondo blanco
+  --ion-color-step-50: #fff; // Asegura que otros tonos también sean blancos o claros
+  --ion-color-base: #000; // Color de texto negro para contraste
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+ion-datetime {
+  // Cambia el color de fondo del día seleccionado
+  --ion-color-primary: #245966; // Aquí puedes poner cualquier color (ej. rosa)
+
+  // También puedes personalizar el color del texto seleccionado
+  --ion-color-primary-contrast: white;
+}
+
+ion-item ion-input {
+  color: black; // Cambia el texto ingresado a negro
+}
+
+.btn-ojo {
+  --background: transparent;
+  --box-shadow: none;
+  --color: black; // cambia el color del icono si lo deseas
+
+  ion-icon {
+    font-size: 1.4em;
+  }
+}
+
+.btn-ojo {
+  --background: transparent;
+  --box-shadow: none;
+  --color: black;
+
+  ion-icon {
+    font-size: 1.4em;
+  }
+}
+
+
+ion-back-button::part(icon) {
+  color: white !important; // Cambia a cualquier color (#000, #1c728e, etc.)
+  font-size: 24px;
 }

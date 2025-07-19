@@ -1,39 +1,66 @@
-/* Reduce el tamaño del texto en los chips */
+/* Tamaño más compacto en chips */
 .template-list ion-chip ion-label {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 }
 
-/* Reduce el tamaño del título de cada hábito activo */
+/* Tamaño más pequeño en los títulos de tarjetas */
 ion-card-title {
   font-size: 1rem;
 }
 
-/* Reduce un poco el tamaño de los botones de días */
-.dias button {
-  background: #f1f1f1;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 6px;
-  font-size: 0.75rem;
-  cursor: pointer;
-  transition: all 0.3s;
+/* Botones de días más modernos y pequeños */
+.dias {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
 }
 
-/* Si quieres aún más discreto para el badge */
+.dias button {
+  width: 32px;
+  height: 32px;
+  font-size: 0.75rem;
+  background: #eaeaea;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.dias button.completado {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* Racha */
 .badge {
   text-align: center;
   margin-top: 8px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   animation: pulse 1s infinite;
 }
 
+/* Estadísticas */
+.resumen-card p {
+  margin: 0.3rem 0;
+  font-size: 0.85rem;
+}
 
-
+/* Cabecera */
 ion-toolbar {
-  --background: #6980d3; /* color barra principal*/
-  --color: #ffffff;      /* texto blanco */
+  --background: #6980d3;
+  --color: #ffffff;
 }
 
 ion-back-button {
   --color: #ffffff;
+}
+ion-card.seleccionado {
+  border: 2px solid #4caf50;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+
+ion-back-button::part(icon) {
+  color: white !important; // Cambia a cualquier color (#000, #1c728e, etc.)
+  font-size: 24px;
 }

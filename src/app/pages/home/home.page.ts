@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { AlertController, ModalController, AnimationController } from '@ionic/angular';
 import { CalendarOptions } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -14,6 +14,9 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  @ViewChild('cardClima', { read: ElementRef }) cardClima!: ElementRef;
+  @ViewChild('cardFinanzas', { read: ElementRef }) cardFinanzas!: ElementRef;
+  @ViewChild('cardFrase', { read: ElementRef }) cardFrase!: ElementRef;
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
@@ -25,53 +28,107 @@ export class HomePage implements OnInit {
     },
     dateClick: this.onDateClick.bind(this),
     eventClick: this.onEventClick.bind(this),
+    eventContent: (arg) => {
+      const starEl = document.createElement('span');
+      starEl.textContent = '★ ';
+      starEl.style.color = '#ffc107';
+      starEl.style.marginRight = '4px';
+      starEl.style.fontWeight = 'bold';
+      starEl.style.fontSize = '1.1em';
+
+      const textEl = document.createElement('span');
+      textEl.textContent = arg.event.title;
+      textEl.style.fontWeight = '600';
+      textEl.style.fontSize = '0.9em';
+      textEl.style.color = '#1c728e';
+      textEl.style.whiteSpace = 'nowrap';
+      textEl.style.overflow = 'hidden';
+      textEl.style.textOverflow = 'ellipsis';
+
+      return { domNodes: [starEl, textEl] };
+    },
     events: []
   };
 
   posts: any[] = [];
-  climaCiudad: string = 'Santiago';
-  climaTemp: string = '';
-  climaDesc: string = '';
-  valorUF: string = '';
-  valorDolar: string = '';
-  fraseMotivacional: string = '';
+  climaCiudad = 'Santiago';
+  climaTemp = '';
+  climaDesc = '';
+  valorUF = '';
+  valorDolar = '';
+  fraseMotivacional = '';
 
   constructor(
     private alertCtrl: AlertController,
     private modalCtrl: ModalController,
     private storage: Storage,
-    private api: ApiService
+    private api: ApiService,
+    private animationCtrl: AnimationController
   ) {}
 
   async ngOnInit() {
     await this.storage.create();
-    this.climaCiudad = await this.storage.get('ciudad');
-    if (!this.climaCiudad || this.climaCiudad.trim() === '') {
-      this.climaCiudad = 'Santiago';
-    }
+    this.climaCiudad = (await this.storage.get('ciudad')) || 'Santiago';
     this.cargarEventos();
     this.cargarAPI();
     this.obtenerFrase();
     await this.obtenerClimaDesdeUbicacion();
-    this.obtenerEconomia();
+    await this.obtenerEconomia();
+
+    // Refrescar economía cada 30 minutos
+    setInterval(() => this.obtenerEconomia(), 1000 * 60 * 30);
   }
 
-  async cargarEventos() {
-    const guardados = await this.storage.get('eventos');
-    if (guardados) {
-      this.calendarOptions.events = guardados;
-    }
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.animarCard(this.cardClima);
+      this.animarCard(this.cardFinanzas);
+      this.animarCard(this.cardFrase);
+    }, 300);
   }
+
+  animarCard(el: ElementRef) {
+    this.animationCtrl.create()
+      .addElement(el.nativeElement)
+      .duration(500)
+      .easing('ease-in-out')
+      .fromTo('opacity', '0', '1')
+      .fromTo('transform', 'translateY(20px)', 'translateY(0)')
+      .play();
+  }
+
+  enterAnimation = (baseEl: HTMLElement) => {
+    const backdrop = baseEl.shadowRoot?.querySelector('ion-backdrop');
+    const wrapper = baseEl.shadowRoot?.querySelector('.modal-wrapper');
+    const backdropAnim = this.animationCtrl.create()
+      .addElement(backdrop || baseEl)
+      .fromTo('opacity', '0.01', 'var(--backdrop-opacity)');
+    const wrapperAnim = this.animationCtrl.create()
+      .addElement(wrapper || baseEl)
+      .keyframes([
+        { offset: 0, opacity: '0', transform: 'scale(0.8)' },
+        { offset: 1, opacity: '1', transform: 'scale(1)' }
+      ]);
+    return this.animationCtrl.create()
+      .addElement(baseEl)
+      .duration(400)
+      .easing('ease-out')
+      .addAnimation([backdropAnim, wrapperAnim]);
+  };
+
+  leaveAnimation = (baseEl: HTMLElement) => this.enterAnimation(baseEl).direction('reverse');
 
   async onDateClick(arg: any) {
     const modal = await this.modalCtrl.create({
       component: EventModalComponent,
-      componentProps: { date: arg.dateStr }
+      componentProps: { date: arg.dateStr },
+      enterAnimation: this.enterAnimation,
+      leaveAnimation: this.leaveAnimation
     });
 
-    modal.onDidDismiss().then(async result => {
-      if (result.data) {
-        const data = result.data;
+    modal.onDidDismiss().then(async (res) => {
+      if (res.data) {
+        const data = res.data;
         const nuevoEvento = {
           title: data.titulo,
           start: `${data.date}T${data.horaInicio}`,
@@ -83,10 +140,9 @@ export class HomePage implements OnInit {
             repetir: data.repetir
           }
         };
-
         const actuales = this.calendarOptions.events as any[] || [];
         const actualizados = [...actuales, nuevoEvento];
-        this.calendarOptions = { ...this.calendarOptions, events: [...actualizados] };
+        this.calendarOptions = { ...this.calendarOptions, events: actualizados };
         await this.storage.set('eventos', actualizados);
       }
     });
@@ -97,20 +153,17 @@ export class HomePage implements OnInit {
   async onEventClick(info: any) {
     const evento = info.event;
     const props = evento.extendedProps;
-
     const fecha = new Date(evento.start).toLocaleDateString('es-ES', {
       weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric'
     });
-
     const mensaje = `
-      📅 Fecha: ${fecha}
-      📍 Ubicación:${props.ubicacion || '—'}
-      📝 Notas: ${props.notas || '—'}
-      🔁 Repetir:${props.repetir || '—'}
-      ⏰ Desde: ${new Date(evento.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
-      ⏳ Hasta:${new Date(evento.end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
-    `;
-
+📅 Fecha: ${fecha}
+📍 Ubicación: ${props.ubicacion || '—'}
+📝 Notas: ${props.notas || '—'}
+🔁 Repetir: ${props.repetir || '—'}
+⏰ Desde: ${new Date(evento.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
+⏳ Hasta: ${new Date(evento.end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
+`;
     const alert = await this.alertCtrl.create({
       header: `📌 ${evento.title}`,
       message: mensaje,
@@ -119,7 +172,6 @@ export class HomePage implements OnInit {
         { text: 'Cerrar', role: 'cancel' }
       ]
     });
-
     await alert.present();
   }
 
@@ -128,8 +180,18 @@ export class HomePage implements OnInit {
     const actualizados = actuales.filter(ev =>
       !(ev.title === evento.title && new Date(ev.start).toISOString() === evento.start.toISOString())
     );
-    this.calendarOptions = { ...this.calendarOptions, events: [...actualizados] };
+    this.calendarOptions = { ...this.calendarOptions, events: actualizados };
     await this.storage.set('eventos', actualizados);
+  }
+
+  async cargarEventos() {
+    const guardados = await this.storage.get('eventos');
+    if (guardados) {
+      this.calendarOptions = {
+        ...this.calendarOptions,
+        events: guardados,
+      };
+    }
   }
 
   cargarAPI() {
@@ -139,7 +201,6 @@ export class HomePage implements OnInit {
         this.storage.set('posts', this.posts);
       },
       async (error: any) => {
-        console.log('API error:', error.status);
         if (error.status === 404 || !navigator.onLine) {
           this.posts = await this.storage.get('posts') || [];
         }
@@ -151,33 +212,29 @@ export class HomePage implements OnInit {
     try {
       let lat = await this.storage.get('lat');
       let lon = await this.storage.get('lon');
-
-      console.log('DEBUG | Lat desde storage:', lat, 'Lon:', lon);
-
-      if (!lat || !lon) {
-        lat = -33.45;
-        lon = -70.66;
-        console.warn('No hay lat/lon en Storage, usando coordenadas por defecto (Santiago).');
-      }
-
+      if (!lat || !lon) { lat = -33.45; lon = -70.66; }
       const resp = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
       const data = await resp.json();
-
-      console.log('DEBUG | Respuesta API Clima:', data);
-
       this.climaTemp = data.current_weather?.temperature;
       this.climaDesc = 'Despejado';
-
-    } catch (err) {
-      console.error('Error obteniendo clima', err);
+    } catch {
       this.climaTemp = '';
       this.climaDesc = 'No disponible';
     }
   }
 
-  obtenerEconomia() {
-    this.valorUF = '35.000 CLP';
-    this.valorDolar = '890 CLP';
+  async obtenerEconomia() {
+    try {
+      const data = await this.api.getIndicadoresEconomicos().toPromise();
+      this.valorUF = `${data.uf.valor.toLocaleString('es-CL')} CLP`;
+      this.valorDolar = `${data.dolar.valor.toLocaleString('es-CL')} CLP`;
+      await this.storage.set('valorUF', this.valorUF);
+      await this.storage.set('valorDolar', this.valorDolar);
+    } catch (error) {
+      console.error('Error al obtener economía', error);
+      this.valorUF = await this.storage.get('valorUF') || 'No disponible';
+      this.valorDolar = await this.storage.get('valorDolar') || 'No disponible';
+    }
   }
 
   obtenerFrase() {

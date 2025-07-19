@@ -8,27 +8,32 @@ ion-content {
   --padding-end: 12px;
 }
 
-/* Espacio entre cards más pequeño */
+/* Espaciado de tarjetas informativas */
 ion-card.info-card {
   font-size: 0.9rem;
   text-align: center;
   margin-top: 3px;
   margin-bottom: 3px;
+  background-color: #ffffff !important; /* Fondo blanco */
+  color: #000;                          /* Texto negro */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
 }
 
+/* Ajuste general de títulos y textos */
 ion-card-title {
   font-size: 1rem;
 }
 
-ion-card-content h3, 
-ion-card-content p, 
+ion-card-content h3,
+ion-card-content p,
 ion-card-content blockquote {
   margin: 0.3em 0;
   font-size: 0.95rem;
   line-height: 1.2;
 }
 
-/* Calendario sin margen abajo excesivo */
+/* Calendario sin margen inferior */
 .full-calendar {
   font-family: 'Segoe UI', sans-serif;
   --fc-border-color: #e0e0e0;
@@ -50,8 +55,9 @@ ion-card-content blockquote {
   border-radius: 6px;
 }
 
+/* Encabezado general */
 ion-toolbar {
-  --background: #6980d3;
+  --background: #878998;
   --color: #ffffff;
 }
 
@@ -59,5 +65,75 @@ ion-menu-button {
   --color: #ffffff;
 }
 
+/* Fondo blanco y bordes suaves en el calendario */
+::ng-deep full-calendar {
+  background-color: white !important;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+::ng-deep .fc,
+::ng-deep .fc-daygrid-day,
+::ng-deep .fc-scrollgrid,
+::ng-deep .fc-theme-standard .fc-scrollgrid {
+  background-color: white !important;
+  color: #000;
+}
+
+::ng-deep .fc-theme-standard td,
+::ng-deep .fc-theme-standard th {
+  border: 1px solid #e0e0e0 !important;
+}
+
+::ng-deep .fc-toolbar {
+  background-color: white !important;
+  color: #000 !important;
+}
+
+/* Estilos personalizados para los botones del calendario */
+:host ::ng-deep .fc-button {
+  background-color: #1c728e !important;
+  border: none !important;
+  color: white !important;
+  font-weight: bold;
+}
+
+:host ::ng-deep .fc-button.fc-button-primary:not(:disabled):hover {
+  background-color: #145a6f !important;
+}
+
+/* Estilos específicos para la Frase del Día */
+:host ::ng-deep .frase-card blockquote {
+  color: #1c8bc2;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin: 1rem;
+  font-size: 1.05rem;
+}
 
 
+
+:host ::ng-deep .fc-star-event {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+:host ::ng-deep {
+  .fc-event {
+    display: inline-block;      /* Ocupa solo el ancho necesario */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;    /* Agrega "…" si excede el ancho */
+    max-width: 100%;
+    vertical-align: middle;
+  }
+
+  .fc-daygrid-day-frame {
+    position: relative;         /* Para posicionar la estrella/dentro del recuadro */
+  }
+
+  .fc-daygrid-day-frame .fc-event {
+    width: calc(100% - 4px);    /* Ajusta espacio por margen interno */
+    margin: 0 2px;
+  }
+}

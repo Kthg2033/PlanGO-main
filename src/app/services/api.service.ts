@@ -8,9 +8,11 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
   private tareasUrl = 'https://64b67812df0839c97e1622ea.mockapi.io/api/v1/tareas';
+  private indicadoresUrl = 'https://mindicador.cl/api';
 
   constructor(private http: HttpClient) {}
 
+  // 📌 TAREAS
   getTareas(): Observable<Tarea[]> {
     return this.http.get<Tarea[]>(this.tareasUrl);
   }
@@ -20,7 +22,6 @@ export class ApiService {
   }
 
   crearTarea(tarea: Omit<Tarea, 'id'>): Observable<Tarea> {
-    // NO mandamos el id porque lo crea el backend
     return this.http.post<Tarea>(this.tareasUrl, tarea);
   }
 
@@ -30,5 +31,10 @@ export class ApiService {
 
   eliminarTarea(id: number): Observable<void> {
     return this.http.delete<void>(`${this.tareasUrl}/${id}`);
+  }
+
+  // 📊 INDICADORES ECONÓMICOS (UF, Dólar, etc.)
+  getIndicadoresEconomicos(): Observable<any> {
+    return this.http.get<any>(this.indicadoresUrl);
   }
 }

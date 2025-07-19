@@ -12,8 +12,9 @@
 @import "@ionic/angular/css/palettes/dark.system.css";
 
  
+
 ion-header ion-toolbar {
-  --background: #6980d3 !important;
+  --background: #3587a2 !important;/*color parte de arriba app*/
   --color: #ffffff !important;
 }
 
@@ -35,9 +36,20 @@ ion-datetime {
 }
 
 ion-datetime::part(wheel-item) {
-  color: rgb(106, 105, 188); /* texto normal */
+  color: rgb(4, 4, 6); /* texto normal */
 }
 
 ion-datetime::part(wheel-item active) {
-  color: rgb(103, 85, 186); /* texto seleccionado */
+  color: rgb(12, 11, 14); /* texto seleccionado */
 }
+
+/* Aplica estilo al selector de hora (carrusel) */
+ion-datetime[presentation="time"] {
+  --background: white; /* Fondo blanco total */
+  --wheel-highlight-background: #5598ae; /* Color del "círculo" activo */
+  --color: #000; /* Texto en negro */
+  --wheel-fade-background-rgb: 255, 255, 255; /* Elimina el gradiente rosado */
+  --ion-color-primary: #1c728e; /* Asegura consistencia del color */
+  --ion-color-primary-contrast: white; /* Texto blanco sobre selector */
+}
+

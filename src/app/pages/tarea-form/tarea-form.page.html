@@ -1,7 +1,12 @@
 <ion-header>
   <ion-toolbar style="--background: #6980d3;">
     <ion-buttons slot="start">
-      <ion-back-button text="" icon="chevron-back-outline" class="custom-back-button"></ion-back-button>
+      <ion-back-button
+        defaultHref="/tareas"
+        text=""
+        icon="chevron-back-outline"
+        class="custom-back-button">
+      </ion-back-button>
     </ion-buttons>
     <ion-title class="ion-text-center" color="light">
       {{ editMode ? 'Editar Tarea' : 'Nueva Tarea' }}

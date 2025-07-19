@@ -2,12 +2,12 @@ html, body, ion-app, ion-content {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #f2ecf8;
+  background-color: #f0f2f5; // Gris muy claro
 }
 
 ion-toolbar {
-  --background: #f2ecf8;
-  --color: #000;
+  --background: #ffffff;
+  --color: #2c3e50;
   box-shadow: none;
 }
 
@@ -19,52 +19,70 @@ ion-content {
 }
 
 .login-wrapper {
-  width: 200%;
+  width: 100%;
   max-width: 400px;
-  padding: 0.3rem;
+  padding: 1rem;
 }
 
 .login-form {
-  background: white;
-  padding: 3rem 2rem; /* menos padding vertical, más horizontal si quieres */
-  border-radius: 0rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   text-align: center;
 }
 
 .logo-container {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
-.logo {
-  width: 200px;
+.foto-perfil {
+  width: 100px;
   height: 100px;
   border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
 }
 
-h1, h2, h6 {
-  margin: 0.5rem 0;
+h1 {
+  font-size: 2rem;
+  color: #2c3e50;
+}
+
+h6 {
+  font-size: 0.95rem;
+  color: #7f8c8d;
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin-top: 0.8rem;
+  color: #34495e;
 }
 
 ion-item {
-  margin-bottom: 4rem;
-  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  --background: #f7f9fa;
+  --border-color: transparent;
+  --color: #2c3e50;
 }
 
 ion-button {
-  margin-top: 1.5rem;
-  --background: #6a61cc;
-  --background-activated: #5a52b2;
-  --box-shadow: 0 4px 12px rgba(0, 119, 204, 0.4);
-  border-radius: 8px;
-  font-weight: bold;
+  margin-top: 1rem;
+  --background: #3b5998;
+  --background-activated: #2d4373;
+  --box-shadow: 0 4px 12px rgba(59, 89, 152, 0.3);
+  border-radius: 6px;
+  font-weight: 600;
   font-size: 1rem;
 }
 
 .registro-link {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   font-size: 0.9rem;
   display: flex;
   flex-direction: column;
@@ -72,18 +90,9 @@ ion-button {
 }
 
 .registro-link ion-button {
-  color: #6a61cc;
-  text-decoration: underline;
+  color: #3b5998;
   --background: transparent;
+  text-decoration: underline;
   padding: 0;
-}
-
-
-.foto-perfil {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%; /* para círculo */
-  object-fit: cover;
-  display: block;
-  margin: 0 auto; /* centrar */
+  font-weight: 500;
 }

@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { PerfilService } from 'src/app/services/perfil.service';
 import { Storage } from '@ionic/storage-angular';
-import { ToastController } from '@ionic/angular';
+import { ToastController, AnimationController } from '@ionic/angular';
 
 @Component({
-  standalone:false,
+  standalone: false,
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
@@ -15,11 +15,14 @@ export class LoginPage {
   password = '';
   mostrarContrasena = false;
 
+  @ViewChild('btnLogin', { read: ElementRef }) btnLogin!: ElementRef;
+
   constructor(
     private router: Router,
     private perfilService: PerfilService,
     private storage: Storage,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private animationCtrl: AnimationController
   ) {}
 
   async ngOnInit() {
@@ -27,7 +30,6 @@ export class LoginPage {
   }
 
   async login(): Promise<void> {
-    // Validar que el correo tenga formato válido
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(this.usuario.trim())) {
       this.presentToast('Por favor ingresa un correo electrónico válido', 'danger');
@@ -48,9 +50,7 @@ export class LoginPage {
 
     if (emailIngresado === emailGuardado && passIngresado === passGuardado) {
       this.perfilService.setNombre(usuarioGuardado.nombres);
-
       await this.storage.set('isLoggedIn', true);
-
       this.router.navigate(['/home']);
       this.presentToast('Login correcto, redirigiendo...', 'success');
     } else {
@@ -74,5 +74,21 @@ export class LoginPage {
 
   recuperarPassword() {
     this.router.navigate(['/forgot-password']);
+  }
+
+  animarLogin() {
+    const anim = this.animationCtrl.create()
+      .addElement(this.btnLogin.nativeElement)
+      .duration(250)
+      .iterations(1)
+      .keyframes([
+        { offset: 0, transform: 'scale(1)' },
+        { offset: 0.5, transform: 'scale(1.05)' },
+        { offset: 1, transform: 'scale(1)' }
+      ]);
+
+    anim.play().then(() => {
+      this.login();
+    });
   }
 }

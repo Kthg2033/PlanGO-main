@@ -1,7 +1,8 @@
-
-
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="" color="light"></ion-back-button>
+    </ion-buttons>
     <ion-title>Tareas</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="agregarTarea()">
@@ -10,9 +11,6 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-
-
 
 <ion-content class="ion-padding">
   <ion-list>
@@ -34,7 +32,11 @@
         <p>🎯 Puntos: {{ tarea.puntos }} | 🔥 Racha: {{ tarea.racha }}</p>
         <p>🗒️ {{ tarea.notas }}</p>
       </ion-label>
-      <ion-checkbox slot="start" [(ngModel)]="tarea.completada" (ionChange)="toggleCompletada(tarea)"></ion-checkbox>
+      <ion-checkbox
+        slot="start"
+        [(ngModel)]="tarea.completada"
+        (ionChange)="toggleCompletada(tarea)">
+      </ion-checkbox>
       <ion-button fill="clear" (click)="editarTarea(tarea.id)">
         <ion-icon slot="icon-only" name="create"></ion-icon>
       </ion-button>

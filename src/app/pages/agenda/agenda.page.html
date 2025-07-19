@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar style="--background: #1c728e; --color: #ffffff;">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home" text="" color="light"></ion-back-button>
     </ion-buttons>
@@ -7,20 +7,22 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-list *ngIf="eventos.length > 0">
-    <ion-item *ngFor="let evento of eventos">
-      <ion-label>
-        <h2>{{ evento.title }}</h2>
-        <p>
-          📅 {{ evento.start | date: 'fullDate' }}<br>
-          ⏰ {{ evento.start | date: 'shortTime' }} - {{ evento.end | date: 'shortTime' }}<br>
-          📍 {{ evento.extendedProps?.ubicacion ? evento.extendedProps.ubicacion : 'Sin ubicación' }}<br>
-          📝 {{ evento.extendedProps?.notas ? evento.extendedProps.notas : 'Sin notas' }}
-        </p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+<ion-content class="ion-padding fondo-agenda">
+  <ion-card *ngFor="let evento of eventos; let i = index" class="evento-card">
+    <ion-card-header>
+      <ion-card-title>{{ evento.title }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>📅 {{ evento.start | date: 'fullDate' : undefined : 'es' }}</p>
+      <p>⏰ {{ evento.start | date: 'HH:mm' }} - {{ evento.end | date: 'HH:mm' }}</p>
+      <p>📍 {{ evento.extendedProps?.ubicacion || 'Sin ubicación' }}</p>
+      <p>📝 {{ evento.extendedProps?.notas || 'Sin notas' }}</p>
+
+      <ion-button color="danger" fill="outline" size="small" (click)="confirmarEliminacion(i)">
+        🗑 Eliminar
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
 
   <ion-text color="medium" *ngIf="eventos.length === 0">
     <p>No hay eventos en la agenda.</p>
